@@ -7,7 +7,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class Test2Test {
+public class Task2Test {
 
     @Test
     public void testListedWeekNotEquals() {
