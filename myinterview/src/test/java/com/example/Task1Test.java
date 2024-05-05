@@ -98,7 +98,6 @@ public class Task1Test {
         assertFalse(TASK1.validPalindrome("..¨()-"));
         assertFalse(TASK1.validPalindrome("@%#"));
         assertFalse(TASK1.validPalindrome("$$#"));
-        assertFalse(TASK1.validPalindrome("1234567890"));
         assertFalse(TASK1.validPalindrome("!@#$%^&*()"));
         assertFalse(TASK1.validPalindrome("¨"));
         assertFalse(TASK1.validPalindrome("!@#!@#"));

@@ -1,5 +1,7 @@
 package com.example;
 
+import java.io.PrintStream;
+
 /**
  * A very basic program that demonstrates the use of JUnit tests. The tests include a sample unit test and an
  * integration test.
@@ -18,14 +20,20 @@ public class HelloApp {
      */
     public static void main(String[] args) {
 
+        HelloApp app = new HelloApp();
+        int exitCode = app.processArguments(args, System.err);
+    }
+
+    public int processArguments(String[] args, PrintStream errorStream) {
+
         int times = DEFAULT_TIMES;
         if (args.length >= 1) {
             try {
-                times = Integer.valueOf(args[0]);
+                times = Integer.parseInt(args[0]);
             } catch (NumberFormatException e) {
-                System.err.println("I don't understand the parameter you passed me. Is it a number? " +
+                errorStream.print("I don't understand the parameter you passed me. Is it a number? " +
                         "Parameter was: [" + args[0] + "]");
-                System.exit(EXIT_STATUS_PARAMETER_NOT_UNDERSTOOD);
+                return EXIT_STATUS_PARAMETER_NOT_UNDERSTOOD;
             }
         }
 
@@ -33,10 +41,11 @@ public class HelloApp {
         try {
             hi.setTimes(times);
         } catch (IllegalArgumentException e) {
-            System.err.println("Something went wrong: " + e.getMessage());
-            System.exit(EXIT_STATUS_HELLO_FAILED);
+            errorStream.print("Something went wrong: " + e.getMessage());
+            return EXIT_STATUS_HELLO_FAILED;
         }
         hi.sayHello(System.out);
+        return 0;
     }
 
 }

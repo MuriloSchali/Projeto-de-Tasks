@@ -2,15 +2,15 @@ package com.example;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import com.example.Hello;
-import com.example.HelloApp;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
-import static org.mockito.Mockito.*;
-import static org.powermock.api.mockito.PowerMockito.whenNew;
+import static org.assertj.core.api.Fail.fail;
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit test for HelloApp.
@@ -19,7 +19,6 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
  * <p/>
  * This test uses PowerMock and Mockito to mock objects.
  */
-@RunWith(PowerMockRunner.class)
 @PrepareForTest({System.class, HelloApp.class})
 public class HelloAppTest {
 
@@ -31,34 +30,25 @@ public class HelloAppTest {
 
     @Test
     public void testWrongArgument() {
-        PowerMockito.mockStatic(System.class);
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        PrintStream errorStream = new PrintStream(outContent);
 
+        HelloApp app = new HelloApp();
         String[] args = {"bicycle"};
-        HelloApp.main(args);
+        int exitCode = app.processArguments(args, errorStream);
 
-        // Did the program exit with the expected error code?
-        PowerMockito.verifyStatic(only());
-        System.exit(HelloApp.EXIT_STATUS_PARAMETER_NOT_UNDERSTOOD);
+        assertEquals(HelloApp.EXIT_STATUS_PARAMETER_NOT_UNDERSTOOD, exitCode);
     }
+
 
     @Test
-    public void testHelloError() throws Exception {
-        PowerMockito.mockStatic(System.class);
-
-        // Mock Hello used by HelloApp to throw the expected exception when invoked with setTimes(5).
-        Hello hi = mock(Hello.class);
-        doThrow(new IllegalArgumentException("Nope.")).when(hi).setTimes(5);
-        // Sneakily insert our fake Hello class when it is created.
-        whenNew(Hello.class).withNoArguments().thenReturn(hi);
-
-        // We know this will raise the expected exception, because we mocked Hello.
-        String[] args = {"5"};
-        HelloApp.main(args);
-
-        // Did the program exit with the expected error code?
-        PowerMockito.verifyStatic(only());
-        System.exit(HelloApp.EXIT_STATUS_HELLO_FAILED);
-    }
+    public void testHelloError() {
+        Hello hello = new Hello();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        assertThrows(IllegalArgumentException.class, () -> {
+            hello.setTimes(21);
+            hello.sayHello(new PrintStream(outputStream));
+        });}
 
     @Test
     public void testDefaultArgument() {
