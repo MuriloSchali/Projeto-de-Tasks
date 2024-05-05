@@ -8,4 +8,8 @@ package com.example;
  */
 public class TASK5 {
 
+    /*
+     The exercise is in the package called TASK5, and uses the Spring Boot framework to simplify development.
+     */
+
 }
