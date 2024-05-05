@@ -1,16 +1,13 @@
 package com.example;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
-import com.example.Hello;
-import com.example.HelloApp;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
-import static org.mockito.Mockito.*;
-import static org.powermock.api.mockito.PowerMockito.whenNew;
+import static org.assertj.core.api.Fail.fail;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Unit test for HelloApp.
@@ -31,15 +28,16 @@ public class HelloAppTest {
 
     @Test
     public void testWrongArgument() {
-        PowerMockito.mockStatic(System.class);
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        PrintStream errorStream = new PrintStream(outContent);
 
+        HelloApp app = new HelloApp();
         String[] args = {"bicycle"};
-        HelloApp.main(args);
+        int exitCode = app.processArguments(args, errorStream);
 
-        // Did the program exit with the expected error code?
-        PowerMockito.verifyStatic(only());
-        System.exit(HelloApp.EXIT_STATUS_PARAMETER_NOT_UNDERSTOOD);
+        assertEquals(HelloApp.EXIT_STATUS_PARAMETER_NOT_UNDERSTOOD, exitCode);
     }
+
 
     @Test
     public void testHelloError() throws Exception {

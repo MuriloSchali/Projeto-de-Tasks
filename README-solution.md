@@ -10,6 +10,7 @@ Performing tasks with java and creating apis.
 - Java JDK 17
 - Spring Boot
 - AWS
+- MySQL
 
 ## Installation and Usage
 1. Clone the repository to your local machine.
