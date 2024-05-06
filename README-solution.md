@@ -1,4 +1,4 @@
-# Repository README
+## README
 
 ## Project Title
 Projeto-de-Tasks
@@ -20,7 +20,7 @@ Performing tasks with java and creating apis.
 5. Build the project using Maven.
 6. Run the application.
 
-## Informação adicionais
+## Additional information
 
 - **TASK4:** The endpoint available for fetching information and saving data in S3 is available at:
 http://localhost:8081/process/saveToS3
@@ -29,7 +29,7 @@ http://localhost:8081/process/saveToS3
 - **TASK5:** The endpoint available for using CRUD is available at:
 http://localhost:8081/all
 
-### Requisições HTTP para o CRUD:
+### HTTP requests to the CRUD:
 
 - Create Task
 ```
@@ -43,7 +43,7 @@ $ http GET :8081/all
 
 - Update Task
 ```
-$ http PUT :8081/all/1 nome="Learning Python" description=" " priority=2
+$ http PUT :8081/all/1 name="Learning Python" description=" " priority=2
 ```
 
 - Delete Task
